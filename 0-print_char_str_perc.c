@@ -62,7 +62,7 @@ int print_str(va_list *args, Buffer *b, formatSpecifier val)
 	char *pad = NULL, *s = va_arg(*args, char *);
 
 	if (!s)
-		return (null_handler(b));
+		s = "(null)";
 
 	count = _strlen(s);
 	if (val.precision > 0 && val.precision < count)
