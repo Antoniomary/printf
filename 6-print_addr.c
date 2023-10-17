@@ -12,25 +12,34 @@
  */
 int print_addr(va_list *args, Buffer *b, formatSpecifier val)
 {
-	char t_buf[30];
-	int i = 0, count;
-	unsigned long int addr = (unsigned long int) va_arg(*args, void *);
+	char t_buf[30], *ptr = NULL;
+	int i = 0, count = 5;
+	unsigned long int addr;
 
 	(void) val;
-
-	do {
-		t_buf[i++] = hex_map(addr % 16u);
-		addr /= 16u;
-	} while (addr != 0);
-
-	t_buf[i++] = 'x';
-	t_buf[i++] = '0';
-
-	count = i;
-	for (--i; i >= 0; --i)
+	ptr = va_arg(*args, void *);
+	if (!ptr)
+		for (ptr = "(nil)"; i < count; ++i)
+		{
+			print_buffer(b);
+			b->buf[b->index++] = ptr[i];
+		}
+	else
 	{
-		print_buffer(b);
-		b->buf[b->index++] = t_buf[i];
+		addr = (unsigned long int) ptr;
+		do {
+			t_buf[i++] = hex_map(addr % 16u);
+			addr /= 16u;
+		} while (addr != 0);
+
+		t_buf[i++] = 'x', t_buf[i++] = '0';
+
+		count = i;
+		for (--i; i >= 0; --i)
+		{
+			print_buffer(b);
+			b->buf[b->index++] = t_buf[i];
+		}
 	}
 
 	return (count);
