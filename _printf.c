@@ -13,8 +13,9 @@ int _printf(const char *format, ...)
 	Buffer b = {0};
 	int total_count = 0, temp;
 
-	if (format)
-	{
+	if (!format)
+		return (-1);
+
 	va_start(args, format);
 	while (*format)
 	{
@@ -41,7 +42,6 @@ int _printf(const char *format, ...)
 	}
 	va_end(args);
 	flush_buffer(&b);
-	}
 
 	return (total_count);
 }
