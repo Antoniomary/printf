@@ -172,7 +172,7 @@ int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 		n = va_arg(*args, unsigned long);
 	else
 		n = va_arg(*args, unsigned int);
-	len = itoa_reverse_base_16(temp, n, 'x');
+	len = itoa_reverse_base_16(temp, n, 'X');
 	num = temp;
 
 	if (val.precision > len)
