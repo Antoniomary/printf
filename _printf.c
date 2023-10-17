@@ -40,9 +40,8 @@ int _printf(const char *format, ...)
 		print_buffer(&b);
 	}
 	va_end(args);
-	}
-
 	flush_buffer(&b);
+	}
 
 	return (total_count);
 }
