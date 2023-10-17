@@ -22,7 +22,10 @@ int _printf(const char *format, ...)
 			if (*format)
 			{
 				temp = parser(&args, &b, &format);
-				total_count += temp;
+				if (temp != -1)
+					total_count += temp;
+				else
+					total_count = temp;
 			}
 		}
 		else
