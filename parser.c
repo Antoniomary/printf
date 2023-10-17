@@ -33,10 +33,7 @@ int parser(va_list *args, Buffer *b, const char **format)
 
 	/* get the precision given if any */
 	if (*(*format) == '.')
-	{
-		++(*format);
-		val.precision = get_precision(args, format);
-	}
+		++(*format), val.precision = get_precision(args, format);
 
 	/* gets the length modifier given if any */
 	(val.len_mod = get_length(*(*format))) ? ++(*format) : *format;
@@ -49,6 +46,8 @@ int parser(va_list *args, Buffer *b, const char **format)
 	/* handles printing for unknown specifiers */
 	if (*(*format) != '\0')
 		ret += print_literal(b, val);
+	else
+		ret = -1;
 
 	return (ret);
 }
