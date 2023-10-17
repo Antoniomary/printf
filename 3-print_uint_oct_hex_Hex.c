@@ -12,9 +12,13 @@
 int print_uint(va_list *args, Buffer *b, formatSpecifier val)
 {
 	char temp[30], *num = NULL, *(pad)[] = {NULL, NULL};
-	unsigned long n = va_arg(*args, unsigned long);
+	unsigned long n;
 	int c = ' ', len = 0;
 
+	if (val.len_mod == 'l')
+		n = va_arg(*args, unsigned long);
+	else
+		n = va_arg(*args, unsigned int);
 	len = itoa_reverse(temp, 0, n, 'u', 10);
 	num = temp;
 
@@ -40,9 +44,7 @@ int print_uint(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	rev_strcpy_to_buffer(num, len, b);
-
-	_free(pad[0]);
-	_free(pad[1]);
+	_free(pad[0]), _free(pad[1]);
 
 	return (len);
 }
@@ -59,9 +61,13 @@ int print_uint(va_list *args, Buffer *b, formatSpecifier val)
 int print_octal(va_list *args, Buffer *b, formatSpecifier val)
 {
 	char temp[30], *num = NULL, *(pad)[] = {NULL, NULL};
-	unsigned long n = va_arg(*args, unsigned long);
+	unsigned long n;
 	int c = ' ', len = 0;
 
+	if (val.len_mod == 'l')
+		n = va_arg(*args, unsigned long);
+	else
+		n = va_arg(*args, unsigned int);
 	len = itoa_reverse(temp, 0, n, 'u', 8);
 	num = temp;
 
@@ -90,9 +96,7 @@ int print_octal(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	rev_strcpy_to_buffer(num, len, b);
-
-	_free(pad[0]);
-	_free(pad[1]);
+	_free(pad[0]), _free(pad[1]);
 
 	return (len);
 }
@@ -109,9 +113,13 @@ int print_octal(va_list *args, Buffer *b, formatSpecifier val)
 int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 {
 	char temp[30], *num = NULL, *(pad)[] = {NULL, NULL};
-	unsigned long n = va_arg(*args, unsigned long);
+	unsigned long n;
 	int c = ' ', len = 0;
 
+	if (val.len_mod == 'l')
+		n = va_arg(*args, unsigned long);
+	else
+		n = va_arg(*args, unsigned int);
 	len = itoa_reverse_base_16(temp, n, 'x');
 	num = temp;
 
@@ -125,10 +133,7 @@ int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	if (val.flag & HASH)
-	{
-		num[len++] = 'x';
-		num[len++] = '0';
-	}
+		num[len++] = 'x', num[len++] = '0';
 
 	if (val.width > len)
 	{
@@ -143,8 +148,7 @@ int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	rev_strcpy_to_buffer(num, len, b);
-	_free(pad[0]);
-	_free(pad[1]);
+	_free(pad[0]), _free(pad[1]);
 
 	return (len);
 }
@@ -161,9 +165,13 @@ int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 {
 	char temp[30], *num = NULL, *(pad)[] = {NULL, NULL};
-	unsigned long n = va_arg(*args, unsigned long);
+	unsigned long n;
 	int c = ' ', len = 0;
 
+	if (val.len_mod == 'l')
+		n = va_arg(*args, unsigned long);
+	else
+		n = va_arg(*args, unsigned int);
 	len = itoa_reverse_base_16(temp, n, 'x');
 	num = temp;
 
@@ -177,10 +185,7 @@ int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	if (val.flag & HASH)
-	{
-		num[len++] = 'X';
-		num[len++] = '0';
-	}
+		num[len++] = 'X', num[len++] = '0';
 
 	if (val.width > len)
 	{
@@ -195,9 +200,7 @@ int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	rev_strcpy_to_buffer(num, len, b);
-
-	_free(pad[0]);
-	_free(pad[1]);
+	_free(pad[0]), _free(pad[1]);
 
 	return (len);
 }
