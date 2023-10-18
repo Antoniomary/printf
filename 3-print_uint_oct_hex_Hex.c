@@ -71,7 +71,7 @@ int print_octal(va_list *args, Buffer *b, formatSpecifier val)
 	len = itoa_reverse(temp, 0, n, 'u', 8);
 	num = temp;
 
-	if (val.flag & HASH)
+	if (val.flag & HASH && n != 0)
 		num[len++] = '0';
 
 	if (val.precision > len)
@@ -132,7 +132,7 @@ int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
 
-	if (val.flag & HASH)
+	if (val.flag & HASH && n != 0)
 		num[len++] = 'x', num[len++] = '0';
 
 	if (val.width > len)
@@ -184,7 +184,7 @@ int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
 
-	if (val.flag & HASH)
+	if (val.flag & HASH && n != 0)
 		num[len++] = 'X', num[len++] = '0';
 
 	if (val.width > len)
