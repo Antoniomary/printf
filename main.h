@@ -86,7 +86,6 @@ int isflag(int c);
 int _free(char *ptr);
 char *alloc(int size);
 int _strlen(const char *s);
-int null_handler(Buffer *b);
 char *charcpy(char *s, char c, int start, int end);
 char *_strncpy(char *to, int start, char *from, int n);
 
