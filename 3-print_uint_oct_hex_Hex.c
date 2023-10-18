@@ -30,6 +30,8 @@ int print_uint(va_list *args, Buffer *b, formatSpecifier val)
 
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
+	else if (val.precision == 0 && n == 0)
+		return (0);
 
 	if (val.width > len)
 	{
@@ -82,13 +84,14 @@ int print_octal(va_list *args, Buffer *b, formatSpecifier val)
 
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
+	else if (val.precision == 0 && n == 0)
+		return (0);
 
 	if (val.width > len)
 	{
 		pad[1] = alloc(val.width);
 		if (!pad[1])
 			return (_free(pad[0]));
-
 		if ((val.precision == -1) && (val.flag & ZERO))
 			c = '0';
 
@@ -131,6 +134,8 @@ int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
+	else if (val.precision == 0 && n == 0)
+		return (0);
 
 	if (val.flag & HASH && n != 0)
 		num[len++] = 'x', num[len++] = '0';
@@ -140,7 +145,6 @@ int print_hex(va_list *args, Buffer *b, formatSpecifier val)
 		pad[1] = alloc(val.width);
 		if (!pad[1])
 			return (_free(pad[0]));
-
 		if ((val.precision == -1) && (val.flag & ZERO))
 			c = '0';
 
@@ -183,6 +187,8 @@ int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
+	else if (val.precision == 0 && n == 0)
+		return (0);
 
 	if (val.flag & HASH && n != 0)
 		num[len++] = 'X', num[len++] = '0';
@@ -192,7 +198,6 @@ int print_HEX(va_list *args, Buffer *b, formatSpecifier val)
 		pad[1] = alloc(val.width);
 		if (!pad[1])
 			return (_free(pad[0]));
-
 		if ((val.precision == -1) && (val.flag & ZERO))
 			c = '0';
 
