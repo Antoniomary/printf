@@ -19,7 +19,7 @@ int print_Str(va_list *args, Buffer *b, formatSpecifier val)
 	(void) val;
 
 	if (!s)
-		return (null_handler(b));
+		s = "(null)";
 
 	for ( ; *s; ++s)
 	{
