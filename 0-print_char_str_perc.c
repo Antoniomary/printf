@@ -58,25 +58,27 @@ int print_char(va_list *args, Buffer *b, formatSpecifier val)
  */
 int print_str(va_list *args, Buffer *b, formatSpecifier val)
 {
-	int count = 0;
+	int count = 0, null = 0;
 	char *pad = NULL, *ptr = NULL, *s = va_arg(*args, char *);
 
-	s = (!s) ? "(null)" : s;
+	if (!s)
+		s = "(null)", null = 1;
 
 	count = _strlen(s);
 	ptr = alloc(count + 1);
 	if (!ptr)
 		exit(-1);
-	_strncpy(ptr, 0, s, count);
+	s = _strncpy(ptr, 0, s, count);
+	s[count] = '\0';
 
-	if (val.precision > 0 && val.precision < count)
-		s[val.precision] = '\0', count = val.precision;
+	if (val.precision >= 0 && val.precision < count)
+		s[null ? (val.precision = 0) : val.precision] = '\0', count = val.precision;
 
 	if (val.width > count)
 	{
 		pad = alloc(val.width + 1);
 		if (!pad)
-			return (0);
+			return (free(ptr), 0);
 
 		if (val.flag & MINUS)
 		{
@@ -93,7 +95,7 @@ int print_str(va_list *args, Buffer *b, formatSpecifier val)
 	}
 
 	strcpy_to_buffer(s, b);
-	_free(pad);
+	_free(pad), _free(ptr);
 
 	return (count);
 }
