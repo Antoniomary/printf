@@ -17,6 +17,7 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 
 	n = (val.len_mod == 'l') ? va_arg(*args, long int) : va_arg(*args, int);
 	sign = (n < 0) ? 1 : 0;
+	n = sign ? -n : n;
 	len = itoa_reverse(temp, n, 0, 's', 10);
 	num = temp;
 
