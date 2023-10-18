@@ -27,6 +27,8 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 			return (0);
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
+	else if (val.precision == 0 && n == 0)
+		return (0);
 
 	if ((val.flag & PLUS) && !sign)
 		num[len++] = '+';
@@ -40,12 +42,10 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 			return (_free(pad[0]));
 		c = (val.flag & ZERO) == ZERO ? '0' : ' ';
 		len = handle_width(&num, len, pad[1], val.width, val.flag, c);
-		if (sign)
-			num[len - 1] = '-', sign = 0;
+		sign ? (num[len - 1] = '-', sign = 0) : sign;
 	}
 
-	if (sign)
-		num[len++] = '-';
+	sign != 0 ? (num[len++] = '-') : num[len];
 
 	rev_strcpy_to_buffer(num, len, b);
 	_free(pad[0]), _free(pad[1]);
