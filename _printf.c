@@ -30,6 +30,8 @@ int _printf(const char *format, ...)
 				else
 					total_count = temp;
 			}
+			else
+				total_count = -1;
 		}
 		else
 		{
