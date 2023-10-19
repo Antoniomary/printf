@@ -99,6 +99,7 @@ int handle_width_uint(char **old, int len, char *new, int w, int flag, int c);
 
 void strcpy_to_buffer(char *s, Buffer *b);
 void rev_strcpy_to_buffer(char *s, int s_len, Buffer *b);
+void strrev(char *s, int len);
 
 /* functions that get arguments for formatting */
 int get_length(char c);
