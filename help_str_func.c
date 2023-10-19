@@ -28,3 +28,20 @@ void rev_strcpy_to_buffer(char *s, int s_len, Buffer *b)
 		b->buf[b->index++] = s[s_len];
 	}
 }
+
+/**
+ * strrev - a function that reverse a string
+ * @s: the string to reverse.
+ * @len: the length of s.
+ */
+void strrev(char *s, int len)
+{
+	int i, c;
+
+	for (i = 0; i < len / 2; ++i)
+	{
+		c = s[i];
+		s[i] = s[len - 1 - i];
+		s[len - 1 - i] = c;
+	}
+}
