@@ -17,8 +17,7 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 
 	n = (val.len_mod == 'l') ? va_arg(*args, long int) : va_arg(*args, int);
 	sign = (n < 0) ? 1 : 0;
-	len = itoa_reverse(temp, n, 0, 's', 10);
-	num = temp;
+	len = itoa_reverse((num = temp), n, 0, 's', 10);
 
 	if (val.precision > len)
 	{
@@ -27,8 +26,10 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 			return (0);
 		len = handle_precision(&num, len, pad[0], val.precision);
 	}
-	else if (val.precision == 0 && n == 0)
+	else if (val.precision == 0 && val.width == 0 && n == 0)
 		return (0);
+	else if (val.precision == 0 && n == 0 && val.width > 0)
+		len = 0;
 
 	tmp = len;
 	if (sign)
@@ -46,7 +47,6 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 		if (c == '0' && (val.flag & PLUS || val.flag & SPACE || sign))
 			c = num[tmp], num[tmp] = num[len - 1], num[len - 1] = c;
 	}
-
 	rev_strcpy_to_buffer(num, len, b);
 	_free(pad[0]), _free(pad[1]);
 
