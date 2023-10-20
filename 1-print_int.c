@@ -13,7 +13,7 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 {
 	char temp[30], *num = NULL, *(pad)[] = {NULL, NULL};
 	long int n;
-	int c, len = 0, sign;
+	int c, len = 0, sign, tmp;
 
 	n = (val.len_mod == 'l') ? va_arg(*args, long int) : va_arg(*args, int);
 	sign = (n < 0) ? 1 : 0;
@@ -30,7 +30,10 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 	else if (val.precision == 0 && n == 0)
 		return (0);
 
-	if ((val.flag & PLUS) && !sign)
+	tmp = len;
+	if (sign)
+		num[len++] = '-';
+	else if ((val.flag & PLUS) && !sign)
 		num[len++] = '+';
 	else if (val.flag & SPACE && !sign)
 		num[len++] = ' ';
@@ -42,10 +45,9 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 			return (_free(pad[0]));
 		c = (val.flag & ZERO) == ZERO ? '0' : ' ';
 		len = handle_width(&num, len, pad[1], val.width, val.flag, c);
-		sign ? (num[len - 1] = '-', sign = 0) : sign;
+		if (c == '0' && (val.flag & PLUS || val.flag & SPACE || sign))
+			c = num[tmp], num[tmp] = num[len - 1], num[len - 1] = c;
 	}
-
-	sign != 0 ? (num[len++] = '-') : num[len];
 
 	rev_strcpy_to_buffer(num, len, b);
 	_free(pad[0]), _free(pad[1]);

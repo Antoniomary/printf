@@ -12,35 +12,44 @@
  */
 int print_addr(va_list *args, Buffer *b, formatSpecifier val)
 {
-	char t_buf[30], *ptr = NULL;
-	int i = 0, count = 5;
+	char t_buf[30], *ptr = NULL, *pad = NULL;
+	int count = 0;
 	unsigned long int addr;
 
-	(void) val;
-	ptr = va_arg(*args, void *);
+	(void) val, ptr = va_arg(*args, void *);
 	if (!ptr)
-		for (ptr = "(nil)"; i < count; ++i)
-		{
-			print_buffer(b);
-			b->buf[b->index++] = ptr[i];
-		}
+		_strncpy(t_buf, 0, ")lin(", (count = 5));
 	else
 	{
 		addr = (unsigned long int) ptr;
 		do {
-			t_buf[i++] = hex_map(addr % 16u);
+			t_buf[count++] = hex_map(addr % 16u);
 			addr /= 16u;
 		} while (addr != 0);
-
-		t_buf[i++] = 'x', t_buf[i++] = '0';
-
-		count = i;
-		for (--i; i >= 0; --i)
-		{
-			print_buffer(b);
-			b->buf[b->index++] = t_buf[i];
-		}
+		t_buf[count++] = 'x', t_buf[count++] = '0';
 	}
+	t_buf[count] = '\0';
+	strrev(t_buf, count), ptr = t_buf;
+
+	if (val.width > count)
+	{
+		pad = alloc(val.width + 1);
+		if (!pad)
+			return (0);
+
+		if (val.flag & MINUS)
+		{
+			_strncpy(pad, 0, t_buf, count);
+			ptr = charcpy(pad, ' ', count, val.width);
+		}
+		else
+		{
+			charcpy(pad, ' ', 0, val.width - count);
+			ptr = _strncpy(pad, val.width - count, t_buf, count);
+		}
+		ptr[count = val.width] = '\0';
+	}
+	strcpy_to_buffer(ptr, b), _free(pad);
 
 	return (count);
 }
