@@ -33,10 +33,8 @@ int print_int(va_list *args, Buffer *b, formatSpecifier val)
 	tmp = len;
 	if (sign)
 		num[len++] = '-';
-	else if ((val.flag & PLUS) && !sign)
-		num[len++] = '+';
-	else if (val.flag & SPACE && !sign)
-		num[len++] = ' ';
+	else if ((val.flag & PLUS) || (val.flag & SPACE))
+		num[len++] = val.flag & PLUS ? '+' : ' ';
 
 	if (val.width > len)
 	{
